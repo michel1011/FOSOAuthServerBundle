@@ -29,7 +29,7 @@ class OAuthFactory implements AuthenticatorFactoryInterface
 {
     public function createAuthenticator(ContainerBuilder $container, string $firewallName, array $config, string $userProviderId): string
     {
-        $authenticatorId = 'security.authenticator.oauth2.'.$firewallName;
+        $authenticatorId = 'security.authenticator.fosoauth2.'.$firewallName;
         $firewallEventDispatcherId = 'security.event_dispatcher.'.$firewallName;
 
         // authenticator manager
@@ -38,7 +38,7 @@ class OAuthFactory implements AuthenticatorFactoryInterface
             return new Reference($firewallName);
         }, $firewallAuthenticationProviders);
         $container
-            ->setDefinition($managerId = 'security.authenticator.oauth2.'.$firewallName, new ChildDefinition('fos_oauth_server.security.authenticator.manager'))
+            ->setDefinition($managerId = 'security.authenticator.fosoauth2.'.$firewallName, new ChildDefinition('fos_oauth_server.security.authenticator.manager'))
 //            ->replaceArgument(0, $authenticators)
 //            ->replaceArgument(2, new Reference($firewallEventDispatcherId))
             ->addTag('monolog.logger', ['channel' => 'security'])
