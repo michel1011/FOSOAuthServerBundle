@@ -54,6 +54,7 @@ class Oauth2Authenticator extends AbstractAuthenticator
      */
     public function supports(Request $request): ?bool
     {
+
         $authorizationheader = $request->headers->get('Authorization');
         if ($authorizationheader !== null) {
             $authKey = str_replace('Bearer ', '', $authorizationheader);

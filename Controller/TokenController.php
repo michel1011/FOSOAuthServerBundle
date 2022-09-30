@@ -15,10 +15,11 @@ namespace FOS\OAuthServerBundle\Controller;
 
 use OAuth2\OAuth2;
 use OAuth2\OAuth2ServerException;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class TokenController
+class TokenController extends AbstractController
 {
     /**
      * @var OAuth2
@@ -32,6 +33,15 @@ class TokenController
 
     public function tokenAction(Request $request): Response
     {
+        $data = $request->request->all();
+        if ($data['grant_type'] === 'refresh_token') {
+            $response = $this->forward('league.oauth2_server.controller.token::indexAction', [
+                'request'  => $request,
+            ]);
+
+            return $response;
+        }
+
         try {
             return $this->server->grantAccessToken($request);
         } catch (OAuth2ServerException $e) {
